@@ -72,6 +72,11 @@ public class Program
                     menuChoice = Console.ReadLine();
                     break;
                 case 4:
+                    
+                    Console.WriteLine("\nWant to return to the menu? Y/N\n");
+                    menuChoice = Console.ReadLine();
+                    break;
+                case 5:
                     string b = Console.ReadLine();
                     do
                     {
@@ -93,7 +98,7 @@ public class Program
                     Console.WriteLine("\nWant to return to the menu? Y/N\n");
                     menuChoice = Console.ReadLine();
                     break;
-                case 5:
+                case 6:
                     string choicer;
                     do
                     {
@@ -111,22 +116,25 @@ public class Program
                         Console.WriteLine("Want to return another book? Y/N");
                         choicer = Console.ReadLine();
                     }
-                    while (choicer.Equals("Y")) ;
-                    Console.WriteLine("\nWant to return to the menu? Y/N\n");
-                    menuChoice = Console.ReadLine();
-                    break;
-                case 6:
-
+                    while (choicer.Equals("Y"));
                     Console.WriteLine("\nWant to return to the menu? Y/N\n");
                     menuChoice = Console.ReadLine();
                     break;
                 case 7:
-
+                    Console.WriteLine("\nList of the avalible books:");
+                    foreach (Book book in library.GetBooks())
+                    {
+                        Console.WriteLine(book.ToString());
+                    }
                     Console.WriteLine("\nWant to return to the menu? Y/N\n");
                     menuChoice = Console.ReadLine();
                     break;
                 case 8:
-
+                    Console.WriteLine("\nMembers list:");
+                    foreach (Member mem in library.GetMembers())
+                    {
+                        Console.WriteLine(mem.ToString());
+                    }
                     Console.WriteLine("\nWant to return to the menu? Y/N\n");
                     menuChoice = Console.ReadLine();
                     break;
@@ -136,28 +144,6 @@ public class Program
             }
         }
         while (menuChoice.Equals("Y"));
-
-
-        //BOOKS RETURNING
-        Console.WriteLine("\nWant to return any book? Y/N");
         
-
-
-
-        //BOOKS LIST
-        Console.WriteLine("\nList of the avalible books:");
-        foreach (Book book in library.GetBooks())
-        {
-            Console.WriteLine(book.ToString());
-        }
-
-
-
-        //MEMBERS LIST
-        Console.WriteLine("\nMembers list:");
-        foreach (Member mem in library.GetMembers())
-        {
-            Console.WriteLine(mem.ToString());
-        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using BookLibrary;
 
 Console.WriteLine("Welcome admin!");
-Console.WriteLine("\nLet's start\n\nTo add "); 
+Console.WriteLine("\nLet's start\n\nTo add books press 1\n\nTo remove books press 2\n\nTo add members press 3\n\nTo remove members press 4\n\nTo borrow a book press 5\n\nTo return a book press 6\n\nTo view books lists press 7\n\nTo view members lists press 8\n\n"); 
 
 //BOOKS ADDITION
 List<Book> objList = new List<Book>();

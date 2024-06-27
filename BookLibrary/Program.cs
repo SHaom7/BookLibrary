@@ -9,13 +9,14 @@ public class Program
         do
         {
             Library library = new Library();
+            List<Book> objList = new List<Book>();
+            List<Member> memList = new List<Member>();
             Console.WriteLine("\nLet's start\n\nTo add books press 1\n\nTo remove books press 2\n\nTo add members press 3\n\nTo remove members press 4\n\nTo borrow a book press 5\n\nTo return a book press 6\n\nTo view books lists press 7\n\nTo view members lists press 8\n\n");
             int choiceSwitch = int.Parse(Console.ReadLine());
             switch (choiceSwitch)
             {
                 case 1:
                     //BOOKS ADDITION
-                    List<Book> objList = new List<Book>();
                     string choice;
                     do
                     {
@@ -39,6 +40,18 @@ public class Program
                     menuChoice = Console.ReadLine();
                     break;
                 case 2:
+                    string c = "Y";
+                    do
+                    {
+                        Console.WriteLine("What is the book title to remove?");
+                        string title = Console.ReadLine();
+                        library.RemoveBook(title);
+                        Console.WriteLine("\nWant to remove additional books? Y/N");
+                        c = Console.ReadLine();
+                    }
+                    while (c.Equals("Y"));
+                    break;
+                    
                 case 3:
                 case 4:
                 default:
@@ -73,7 +86,6 @@ public class Program
 
         Console.WriteLine("\nNow let's check on members:\n\n");
         //MEMBERS ADDITION
-        List<Member> memList = new List<Member>();
         string choicem;
         do
         {

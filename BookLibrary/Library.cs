@@ -35,25 +35,40 @@ namespace BookLibrary
             return _members;
         }
 
-        public void RemoveBook(string title)
+        public void RemoveBook(string id)
         {
             foreach (Book b in _books)
             {
-                if (b.GetTitle().Equals(title))
+                if (b.GetID().Equals(id))
                 {
                     _books.Remove(b);
-                    Console.WriteLine("The book: " + title + " has been removed");
+                    Console.WriteLine("The book: " + b.GetTitle() + " has been removed");
                     BookCount--;
                     break;
                 }
             }
         }
 
-        public void BorrowBook(Member member, string title)
+
+        public void RemoveMember(string id)
+        {
+            foreach (Member m in _members)
+            {
+                if (m.GetId().Equals(id))
+                {
+                    _members.Remove(m);
+                    Console.WriteLine("The member: " + m.GetName() + " has been removed");
+                    BookCount--;
+                    break;
+                }
+            }
+        }
+
+        public void BorrowBook(Member member, string id)
         {
             foreach(Book b in _books)
             {
-                if(b.GetTitle().Equals(title))
+                if(b.GetID().Equals(id))
                 { 
                     if(b.GetCopies() > 0)
                     {

@@ -9,14 +9,23 @@ namespace BookLibrary
     public class Book
     {
         private string _title;
+        private string _id;
         private string _author;
         private int _copies;
-        public Book(string title, string author, int copies = 5)
+        public Book(string id, string title, string author, int copies = 5)
         {
+            SetID(id);
             SetTitle(title);
             SetAuthor(author);
             SetCopies(copies);
         }
+
+        public void SetID(string id) 
+        {
+            _id = id;
+        }
+
+        public string GetID() { return _id; }
 
         public void SetTitle(string title) 
         { this._title = title;}
@@ -38,7 +47,7 @@ namespace BookLibrary
 
         public override string ToString()
         {
-            return "Title: " + GetTitle() + "\nAuthor: " + GetAuthor() + "\nCopies: " + GetCopies();
+            return "ID: " + GetID() + "Title: " + GetTitle() + "\nAuthor: " + GetAuthor() + "\nCopies: " + GetCopies();
         }
 
     }

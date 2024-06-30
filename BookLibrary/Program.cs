@@ -11,7 +11,14 @@ public class Program
         List<Member> memList = new List<Member>();
         do
         {
-            Console.WriteLine("\nLet's start\n\nTo add books press 1\n\nTo remove books press 2\n\nTo add members press 3\n\nTo remove members press 4\n\nTo borrow a book press 5\n\nTo return a book press 6\n\nTo view books lists press 7\n\nTo view members lists press 8\n\n");
+            Console.WriteLine("\nLet's start\n\n1 To add books " +
+                "\n\n2 To remove books" +
+                "\n\n3 To add members" +
+                "\n\n4 To remove members" +
+                "\n\n5 To borrow a book" +
+                "\n\n6 To return a book" +
+                "\n\n7 To view books lists" +
+                "\n\n8 To view members lists\n\n");
             int choiceSwitch = int.Parse(Console.ReadLine());
             switch (choiceSwitch)
             {
@@ -19,13 +26,15 @@ public class Program
                     string choice;
                     do
                     {
+                        Console.WriteLine("Enter book's ID:");
+                        string id = Console.ReadLine();
                         Console.WriteLine("Enter book's title:");
                         string title = Console.ReadLine();
                         Console.WriteLine("Enter book's author:");
                         string author = Console.ReadLine();
                         Console.WriteLine("Enter book's number of copies:");
                         int copies = int.Parse(Console.ReadLine());
-                        Book obj = new Book(title, author, copies);
+                        Book obj = new Book(id, title, author, copies);
                         objList.Add(obj);
                         Console.WriteLine("\nWant to add more books? Y/N");
                         choice = Console.ReadLine();
@@ -43,9 +52,9 @@ public class Program
                     string c = "Y";
                     do
                     {
-                        Console.WriteLine("What is the book title to remove?");
-                        string title = Console.ReadLine();
-                        library.RemoveBook(title);
+                        Console.WriteLine("What is the book ID you want to remove?");
+                        string id = Console.ReadLine();
+                        library.RemoveBook(id);
                         Console.WriteLine("\nWant to remove additional books? Y/N");
                         c = Console.ReadLine();
                     }
@@ -68,7 +77,6 @@ public class Program
                         choicem = Console.ReadLine();
                     }
                     while (choicem.Equals("Y"));
-                    // Add members to the library using AddMember
                     foreach (Member objm in memList)
                     {
                         library.AddMember(objm);
@@ -77,7 +85,16 @@ public class Program
                     menuChoice = Console.ReadLine();
                     break;
                 case 4:
-                    
+                    string mr = "Y";
+                    do
+                    {
+                        Console.WriteLine("What is the member ID you want to remove?");
+                        string id = Console.ReadLine();
+                        library.RemoveMember(id);
+                        Console.WriteLine("\nWant to remove additional members? Y/N");
+                        mr = Console.ReadLine();
+                    }
+                    while (mr.Equals("Y"));
                     Console.WriteLine("\nWant to return to the menu? Y/N\n");
                     menuChoice = Console.ReadLine();
                     break;
@@ -91,9 +108,9 @@ public class Program
                         {
                             if (obj.GetId().Equals(id))
                             {
-                                Console.WriteLine("What is the title of the book you want to borrow?");
-                                string title = Console.ReadLine();
-                                library.BorrowBook(obj, title);
+                                Console.WriteLine("What is the ID of the book you want to borrow?");
+                                string idb = Console.ReadLine();
+                                library.BorrowBook(obj, idb);
                             }
                         }
                         Console.WriteLine("Want to borrow another book? Y/N");
@@ -113,9 +130,9 @@ public class Program
                         {
                             if (obj.GetId().Equals(id))
                             {
-                                Console.WriteLine("What is the title of the book you want to return?");
-                                string title = Console.ReadLine();
-                                obj.ReturnBook(title);
+                                Console.WriteLine("What is the ID of the book you want to return?");
+                                string idb = Console.ReadLine();
+                                obj.ReturnBook(idb);
                             }
                         }
                         Console.WriteLine("Want to return another book? Y/N");

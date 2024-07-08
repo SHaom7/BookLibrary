@@ -1,4 +1,9 @@
 ﻿using BookLibrary;
+using BookLibrary.Models;
+using BookLibrary.Services;
+using BookLibrary.Data;
+using System;
+using System.Collections.Generic;
 
 public class Program
 {
@@ -6,166 +11,220 @@ public class Program
     {
         Console.WriteLine("Welcome admin!");
         string menuChoice = "Y";
-        Library library = new Library();
-        List<Book> objList = new List<Book>();
-        List<Member> memList = new List<Member>();
+
+        BookLibraryContext context = new BookLibraryContext();
+        BookService bookService = new BookService(context);
+        MemberService memberService = new MemberService(context);
+
         do
         {
             Console.WriteLine("\nLet's start\n\n1 To add books " +
-                "\n\n2 To remove books" +
-                "\n\n3 To add members" +
-                "\n\n4 To remove members" +
-                "\n\n5 To borrow a book" +
-                "\n\n6 To return a book" +
-                "\n\n7 To view books lists" +
-                "\n\n8 To view members lists\n\n");
-            int choiceSwitch = int.Parse(Console.ReadLine());
-            switch (choiceSwitch)
+                        "\n\n2 To remove books" +
+                        "\n\n3 To add members" +
+                        "\n\n4 To remove members" +
+                        "\n\n5 To borrow a book" +
+                        "\n\n6 To return a book" +
+                        "\n\n7 To view books lists" +
+                        "\n\n8 To view members lists" +
+                        "\n\n9 To view books borrowed by a member" +
+                        "\n\n10 To view members who borrowed a book\n\n");
+            int choiceS = int.Parse(Console.ReadLine());
+            
+
+            switch (choiceS)
             {
                 case 1:
-                    string choice;
-                    do
-                    {
-                        Console.WriteLine("Enter book's ID:");
-                        string id = Console.ReadLine();
-                        Console.WriteLine("Enter book's title:");
-                        string title = Console.ReadLine();
-                        Console.WriteLine("Enter book's author:");
-                        string author = Console.ReadLine();
-                        Console.WriteLine("Enter book's number of copies:");
-                        int copies = int.Parse(Console.ReadLine());
-                        Book obj = new Book(id, title, author, copies);
-                        objList.Add(obj);
-                        Console.WriteLine("\nWant to add more books? Y/N");
-                        choice = Console.ReadLine();
-                    }
-                    while (choice.Equals("Y"));
-                    foreach (Book objb in objList)
-                    {
-                        library.AddNewBook(objb);
-                    }
-                    Console.WriteLine("\nWant to return to the menu? Y/N\n");
-                    menuChoice = Console.ReadLine();
+                    AddBooks(bookService);
                     break;
 
                 case 2:
-                    string c = "Y";
-                    do
-                    {
-                        Console.WriteLine("What is the book ID you want to remove?");
-                        string id = Console.ReadLine();
-                        library.RemoveBook(id);
-                        Console.WriteLine("\nWant to remove additional books? Y/N");
-                        c = Console.ReadLine();
-                    }
-                    while (c.Equals("Y"));
-                    Console.WriteLine("\nWant to return to the menu? Y/N\n");
-                    menuChoice = Console.ReadLine();
+                    RemoveBooks(bookService);
                     break;
 
                 case 3:
-                    string choicem = "Y";
-                    do
-                    {
-                        Console.WriteLine("Enter member's id:");
-                        string id = Console.ReadLine();
-                        Console.WriteLine("Enter member's name:");
-                        string name = Console.ReadLine();
-                        Member obj = new Member(id, name);
-                        memList.Add(obj);
-                        Console.WriteLine("\nWant to add more members? Y/N");
-                        choicem = Console.ReadLine();
-                    }
-                    while (choicem.Equals("Y"));
-                    foreach (Member objm in memList)
-                    {
-                        library.AddMember(objm);
-                    }
-                    Console.WriteLine("\nWant to return to the menu? Y/N\n");
-                    menuChoice = Console.ReadLine();
+                    AddMembers(memberService);
                     break;
+
                 case 4:
-                    string mr = "Y";
-                    do
-                    {
-                        Console.WriteLine("What is the member ID you want to remove?");
-                        string id = Console.ReadLine();
-                        library.RemoveMember(id);
-                        Console.WriteLine("\nWant to remove additional members? Y/N");
-                        mr = Console.ReadLine();
-                    }
-                    while (mr.Equals("Y"));
-                    Console.WriteLine("\nWant to return to the menu? Y/N\n");
-                    menuChoice = Console.ReadLine();
+                    RemoveMembers(memberService);
                     break;
+
                 case 5:
-                    string b = Console.ReadLine();
-                    do
-                    {
-                        Console.WriteLine("What is your member id?");
-                        string id = Console.ReadLine();
-                        foreach (Member obj in library.GetMembers())
-                        {
-                            if (obj.GetId().Equals(id))
-                            {
-                                Console.WriteLine("What is the ID of the book you want to borrow?");
-                                string idb = Console.ReadLine();
-                                library.BorrowBook(obj, idb);
-                            }
-                        }
-                        Console.WriteLine("Want to borrow another book? Y/N");
-                        b = Console.ReadLine();
-                    }
-                    while (b.Equals("Y"));
-                    Console.WriteLine("\nWant to return to the menu? Y/N\n");
-                    menuChoice = Console.ReadLine();
+                    BorrowBook(memberService);
                     break;
+
                 case 6:
-                    string choicer;
-                    do
-                    {
-                        Console.WriteLine("What is your member id?");
-                        string id = Console.ReadLine();
-                        foreach (Member obj in library.GetMembers())
-                        {
-                            if (obj.GetId().Equals(id))
-                            {
-                                Console.WriteLine("What is the ID of the book you want to return?");
-                                string idb = Console.ReadLine();
-                                obj.ReturnBook(idb);
-                            }
-                        }
-                        Console.WriteLine("Want to return another book? Y/N");
-                        choicer = Console.ReadLine();
-                    }
-                    while (choicer.Equals("Y"));
-                    Console.WriteLine("\nWant to return to the menu? Y/N\n");
-                    menuChoice = Console.ReadLine();
+                    ReturnBook(memberService);
                     break;
+
                 case 7:
-                    Console.WriteLine("\nList of the avalible books:");
-                    foreach (Book book in library.GetBooks())
-                    {
-                        Console.WriteLine(book.ToString());
-                    }
-                    Console.WriteLine("\nWant to return to the menu? Y/N\n");
-                    menuChoice = Console.ReadLine();
+                    ViewBooks(bookService);
                     break;
+
                 case 8:
-                    Console.WriteLine("\nMembers list:");
-                    foreach (Member mem in library.GetMembers())
-                    {
-                        Console.WriteLine(mem.ToString());
-                    }
-                    Console.WriteLine("\nWant to return to the menu? Y/N\n");
-                    menuChoice = Console.ReadLine();
+                    ViewMembers(memberService);
                     break;
+
+                case 9:
+                    ViewBooksBorrowedByMember(memberService);
+                    break;
+
+                case 10:
+                    ViewMembersWhoBorrowedBook(bookService);
+                    break;
+
                 default:
-                    Console.WriteLine("\nLet's start\n\nTo add books press 1\n\nTo remove books press 2\n\nTo add members press 3\n\nTo remove members press 4\n\nTo borrow a book press 5\n\nTo return a book press 6\n\nTo view books lists press 7\n\nTo view members lists press 8\n\n");
+                    Console.WriteLine("Invalid selection. Please choose a valid option.");
                     break;
             }
+
+            Console.WriteLine("\nWant to return to the menu? Y/N\n");
+            menuChoice = Console.ReadLine();
         }
         while (menuChoice.Equals("Y"));
-        
+    }
+
+    private static void AddBooks(BookService bookService)
+    {
+        string choice;
+        do
+        {
+            Console.WriteLine("Enter book's title:");
+            string title = Console.ReadLine();
+            Console.WriteLine("Enter book's author:");
+            string author = Console.ReadLine();
+            Console.WriteLine("Enter book's number of copies:");
+            int copies = int.Parse(Console.ReadLine());
+            Book book = new Book { Title = title, Author = author, Copies = copies };
+            bookService.AddBook(book);
+            Console.WriteLine("\nWant to add more books? Y/N");
+            choice = Console.ReadLine();
+        }
+        while (choice.Equals("Y"));
+    }
+
+    private static void RemoveBooks(BookService bookService)
+    {
+        string choice;
+        do
+        {
+            Console.WriteLine("What is the book ID you want to remove?");
+            Guid id = Guid.Parse(Console.ReadLine());
+            bookService.DeleteBook(id);
+            Console.WriteLine("\nWant to remove additional books? Y/N");
+            choice = Console.ReadLine();
+        }
+        while (choice.Equals("Y"));
+    }
+
+    private static void AddMembers(MemberService memberService)
+    {
+        string choice;
+        do
+        {
+            Console.WriteLine("Enter member's name:");
+            string name = Console.ReadLine();
+            Member member = new Member { Name = name };
+            memberService.AddMember(member);
+            Console.WriteLine("\nWant to add more members? Y/N");
+            choice = Console.ReadLine();
+        }
+        while (choice.Equals("Y"));
+    }
+
+    private static void RemoveMembers(MemberService memberService)
+    {
+        string choice;
+        do
+        {
+            Console.WriteLine("What is the member ID you want to remove?");
+            Guid id = Guid.Parse(Console.ReadLine());
+            memberService.DeleteMember(id);
+            Console.WriteLine("\nWant to remove additional members? Y/N");
+            choice = Console.ReadLine();
+        }
+        while (choice.Equals("Y"));
+    }
+
+    private static void BorrowBook(MemberService memberService)
+    {
+        string choice;
+        do
+        {
+            Console.WriteLine("What is your member ID?");
+            Guid memberId = Guid.Parse(Console.ReadLine());
+            Member member = memberService.GetMember(memberId);
+            if (member != null)
+            {
+                Console.WriteLine("What is the ID of the book you want to borrow?");
+                Guid bookId = Guid.Parse(Console.ReadLine());
+                memberService.BorrowBook(member, bookId);
+            }
+            Console.WriteLine("Want to borrow another book? Y/N");
+            choice = Console.ReadLine();
+        }
+        while (choice.Equals("Y"));
+    }
+
+    private static void ReturnBook(MemberService memberService)
+    {
+        string choice;
+        do
+        {
+            Console.WriteLine("What is your member ID?");
+            Guid memberId = Guid.Parse(Console.ReadLine());
+            Member member = memberService.GetMember(memberId);
+            if (member != null)
+            {
+                Console.WriteLine("What is the ID of the book you want to return?");
+                Guid bookId = Guid.Parse(Console.ReadLine());
+                memberService.ReturnBook(member, bookId);
+            }
+            Console.WriteLine("Want to return another book? Y/N");
+            choice = Console.ReadLine();
+        }
+        while (choice.Equals("Y"));
+    }
+
+    private static void ViewBooks(BookService bookService)
+    {
+        Console.WriteLine("\nList of the available books:");
+        foreach (Book book in bookService.GetAllBooks())
+        {
+            Console.WriteLine($"ID: {book.BookId}, Title: {book.Title}, Author: {book.Author}, Copies: {book.Copies}");
+        }
+    }
+
+    private static void ViewMembers(MemberService memberService)
+    {
+        Console.WriteLine("\nMembers list:");
+        foreach (Member member in memberService.GetAllMembers())
+        {
+            Console.WriteLine($"ID: {member.MemberId}, Name: {member.Name}");
+        }
+    }
+
+    private static void ViewBooksBorrowedByMember(MemberService memberService)
+    {
+        Console.WriteLine("Enter the member ID:");
+        Guid memberId = Guid.Parse(Console.ReadLine());
+        var books = memberService.BooksBorrowedByMember(memberId);
+        Console.WriteLine($"Books borrowed by member {memberId}:");
+        foreach (var book in books)
+        {
+            Console.WriteLine($"ID: {book.BookId}, Title: {book.Title}, Author: {book.Author}");
+        }
+    }
+
+    private static void ViewMembersWhoBorrowedBook(BookService bookService)
+    {
+        Console.WriteLine("Enter the book ID:");
+        Guid bookId = Guid.Parse(Console.ReadLine());
+        var members = bookService.MembersBorrowedBook(bookId);
+        Console.WriteLine($"Members who borrowed book {bookId}:");
+        foreach (var member in members)
+        {
+            Console.WriteLine($"ID: {member.MemberId}, Name: {member.Name}");
+        }
     }
 }
